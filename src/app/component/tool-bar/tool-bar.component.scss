@@ -1,0 +1,18 @@
+.tool-bar {
+  padding: 0; // No padding
+  margin: 0; // No margin
+  height: 70px; // Set your desired height
+  width: 100%;
+  background-color: teal;
+}
+
+.tool-bar {
+    justify-content: center; /* To center align the text in the toolbar */
+  }
+  
+  .toolbar-title {
+    font-size: 35px;   /* Increase font size */
+    color: white;      /* Change text color to white */
+    font-weight: bold; /* Optional: make the text bold */
+  }
+  

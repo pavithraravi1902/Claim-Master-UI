@@ -1,0 +1,23 @@
+<!-- <div class="card">
+    <img *ngIf="imageUrl" [src]="imageUrl" alt="{{ title }}" class="card-image" />
+    <div class="card-content">
+      <ng-content></ng-content> 
+      <ng-content select="[card-actions]"></ng-content> Specific content for actions
+    </div>
+  </div>
+   -->
+
+   <div class="card">
+    <img *ngIf="imageUrl" [src]="imageUrl" alt="{{ title }}" class="card-image" />
+    <div class="card-content">
+      <ng-content></ng-content>
+      
+      <ng-content select="[card-actions]"></ng-content>
+  
+      <!-- Optionally show this text only if there's content for actions -->
+      <div *ngIf="hasCardActions">
+        Specific content for actions
+      </div>
+    </div>
+  </div>
+  

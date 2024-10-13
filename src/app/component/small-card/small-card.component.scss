@@ -1,0 +1,81 @@
+// .card-row {
+//     display: flex;
+//     justify-content: space-between; /* Ensures equal spacing between cards */
+//     align-items: stretch;           /* Makes cards the same height */
+//     gap: 10px;                      /* Space between cards */
+//     padding: 10px;
+//   }
+  
+//   app-card {
+//     width: 23%;                      /* Set width for each card to fit four in a row */
+//     height: 200px;                   /* Set height for the cards */
+//     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds shadow for better visual effect */
+//   }
+  
+//   @media (max-width: 768px) {
+//     .card-row {
+//       flex-direction: column; /* Stack cards vertically on small screens */
+//     }
+  
+//     app-card {
+//       width: 100%;            /* Make cards full-width when stacked */
+//       margin-bottom: 10px;
+//     }
+//   }
+  
+.card-row {
+    display: flex;
+    justify-content: space-between; /* Equal spacing between cards */
+    align-items: stretch;           /* Make cards the same height */
+    padding: 10px;
+    gap: 5px;                       /* Reduced space between cards */
+}
+
+app-card {
+    width: 23%;                     /* Set width for each card to fit four in a row */
+    height: 150px;                  /* Fixed card height */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds shadow for visual effect */
+    display: flex;
+    flex-direction: column;         /* Stack elements vertically */
+    padding: 8px;                   /* Reduced padding inside the card */
+    overflow: hidden;               /* Hide any overflowing content */
+}
+
+h4 {
+    font-size: 18px;                /* Adjust font size for card headings */
+    margin: 0 0 5px 0;              /* Reduce margin for headings */
+}
+
+p {
+    font-size: 16px;                /* Reduce font size for paragraph text */
+    margin: 0;                      /* Remove extra margin around paragraphs */
+    line-height: 1.2;               /* Adjust line height to fit more content */
+}
+
+.details {
+    flex: 1;
+}
+
+.detail-row {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between; /* Align items in the same row */
+    margin-bottom: 1px;             /* Reduce space between rows */
+}
+
+.answer {
+    font-weight: bold;              /* Bold answers */
+    text-align: right;              /* Align answers to the right */
+    margin-left: 5px;               /* Reduce space between question and answer */
+}
+
+@media (max-width: 768px) {
+    .card-row {
+      flex-direction: column;       /* Stack cards vertically on small screens */
+    }
+
+    app-card {
+      width: 100%;                  /* Make cards full-width when stacked */
+      margin-bottom: 10px;
+    }
+}

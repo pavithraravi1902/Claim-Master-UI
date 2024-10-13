@@ -1,10 +1,22 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'ui';
+  isSidenavOpened = false;
+
+  constructor(private router: Router) {}
+
+  toggleSidenav() {
+    this.isSidenavOpened = !this.isSidenavOpened;
+  }
+
+  // Check if the current route is '/claim'
+  isClaimRoute(): boolean {
+    return this.router.url === '/claim';
+  }
 }

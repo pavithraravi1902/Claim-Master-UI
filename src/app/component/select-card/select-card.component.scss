@@ -1,0 +1,9 @@
+.mat-select {
+    position: relative; /* Ensure mat-select has a position context */
+    z-index: 10; /* Bring it to the front */
+}
+
+.custom-select-panel {
+    position: absolute !important; /* Ensures the panel is positioned absolutely */
+    z-index: 1000; /* Adjust the z-index to bring it to the front */
+}

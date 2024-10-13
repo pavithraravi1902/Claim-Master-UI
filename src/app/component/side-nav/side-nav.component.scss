@@ -1,0 +1,56 @@
+// .sidenav-container {
+//     height: 100vh; /* Full height */
+//     width: 100%;
+//     overflow: hidden;
+//   }
+  
+//   .sidenav-content {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: space-between;
+//     height: 100%;
+//   }
+  
+//   .top-container {
+//     padding: 10px;
+//     background-color: #f0f0f0;
+//     border-radius: 8px;
+//     margin-bottom: 20px;
+//   }
+
+/* Prevent scroll on the main page */
+html, body {
+    height: 100%; /* Full height */
+    margin: 0; /* Remove default margins */
+    overflow: hidden; /* Hide overflow on the main page */
+}
+
+.sidenav-container {
+    height: 100vh; /* Full height */
+    width: 100%;
+    display: flex; /* Use flexbox layout */
+}
+
+mat-sidenav {
+    width: 270px; /* Width of the sidenav */
+    background-color: white; /* Background color */
+    overflow-y: auto; /* Allow scrolling in sidenav */
+}
+
+mat-sidenav-content {
+    padding: 20px; /* Padding for the main content */
+    height: 100vh; /* Full height of viewport */
+    overflow-y: auto; /* Allow scrolling in main content */
+    flex: 1; /* Allow main content to take remaining space */
+}
+
+/* If you want to manage any specific containers' scrolls */
+.top-container {
+    overflow-y: auto; /* Allow scrolling if needed */
+}
+
+/* Example to handle individual chart or content scrolls */
+.chart-container {
+    overflow-y: auto; /* Allow scrolls in specific containers */
+    max-height: 400px; /* Example height for scrolling */
+}

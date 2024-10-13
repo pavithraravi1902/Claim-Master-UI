@@ -1,0 +1,82 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: visible; /* Change this to visible */
+}
+
+.tool-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  background-color: teal;
+  z-index: 1000;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+mat-icon {
+  margin-right: 10px;
+}
+
+.toolbar-title {
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+
+.main-container {
+  margin-top: 70px; /* Align with toolbar height */
+  height: calc(100vh - 70px); /* Full height minus toolbar */
+  display: flex;
+  flex-direction: row;
+  overflow: hidden; /* This could be fine if no dropdowns overlap */
+}
+
+.content {
+  padding: 20px;
+  flex-grow: 1; /* Allow the content area to grow and fill available space */
+  overflow-y: auto; /* Enable scrolling for content */
+}
+
+mat-sidenav {
+  width: 270px; /* Sidenav width */
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+}
+
+mat-toolbar span {
+  margin-left: 20px;
+  font-size: 24px;
+  color: white;
+}
+
+mat-toolbar {
+  display: flex;
+  align-items: center;
+}
+
+/* Handle mobile responsiveness */
+@media (max-width: 768px) {
+  .main-container {
+      flex-direction: column;
+  }
+
+  mat-sidenav {
+      width: 100%; /* Sidenav covers full width on smaller screens */
+      position: fixed;
+      z-index: 999;
+  }
+
+  .tool-bar {
+      height: 60px;
+  }
+
+  .toolbar-title {
+      font-size: 20px; /* Adjust title size for smaller screens */
+  }
+
+  .content {
+      margin-top: 60px; /* Adjust content top margin to match toolbar height */
+  }
+}

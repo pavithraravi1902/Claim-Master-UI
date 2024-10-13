@@ -1,0 +1,81 @@
+<div class="card-row">
+  <app-card>
+    <h4>Active Claims</h4>
+    <div class="details">
+      <div class="detail-row">
+        <p>Claim Pending</p>
+        <p class="answer">{{ claimPending }}</p>
+      </div>
+      <div class="detail-row">
+        <p>SLA Breached</p>
+        <p class="answer">{{ slaBreached }}</p>
+      </div>
+    </div>
+  </app-card>
+
+  <app-card>
+    <h4>Average Processing Time (in mins)</h4>
+    <div class="details">
+      <div class="detail-row">
+        <p>Today</p>
+        <p class="answer">{{ today_average_processing_time }} mins</p>
+      </div>
+      <div class="detail-row">
+        <p>Current Month Average</p>
+        <p class="answer">{{ current_month_average }} mins</p>
+      </div>
+      <div class="detail-row">
+        <p>LOB Average</p>
+        <p class="answer">{{ lob_average }} mins</p>
+      </div>
+      <div class="detail-row">
+        <p>Region Average</p>
+        <p class="answer">{{ region_average }} mins</p>
+      </div>
+    </div>
+  </app-card>
+
+  <app-card title="Claim Processed">
+    <h4>Claim Processed</h4>
+    <div class="details">
+      <div class="detail-row">
+        <p>Today</p>
+        <p class="answer">{{ today }}</p>
+      </div>
+      <div class="detail-row">
+        <p>Yesterday</p>
+        <p class="answer">{{ yesterday }}</p>
+      </div>
+      <div class="detail-row">
+        <p>Month to Date Average</p>
+        <p class="answer">{{ month_to_date_avg }}</p>
+      </div>
+      <div class="detail-row">
+        <p>Quarter to Date Average</p>
+        <p class="answer">{{ quarter_to_date_avg }}</p>
+      </div>
+    </div>
+  </app-card>
+
+  <app-card>
+    <h4>Current Month Status</h4>
+    <div class="details">
+      <div class="detail-row">
+        <p>Total Claims</p>
+        <p class="answer">{{ claimPending + slaBreached }}</p>
+      </div>
+      <div class="detail-row">
+        <p>SLA Met</p>
+        <p class="answer">{{ sla_met }}</p>
+      </div>
+      <div class="detail-row">
+        <p>SLA Breached</p>
+        <p class="answer">{{ sla_breached }}</p>
+      </div>
+      <div class="detail-row">
+        <p>Abandoned</p>
+        <p class="answer">{{ abandoned }}</p>
+      </div>
+    </div>
+  </app-card>
+</div>
