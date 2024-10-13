@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClaimService } from '../../service/claim.service';
 import { forkJoin } from 'rxjs';
+import { SharedService } from '../../sharing/service/shared.service';
 
 @Component({
   selector: 'app-small-card',
@@ -8,7 +9,8 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./small-card.component.scss']
 })
 export class SmallCardComponent implements OnInit {
-  lob: string = "LOB2"; 
+  category: string = ""
+  lob: string = ""; 
   claimPending: number = 0; 
   slaBreached: number = 0; 
   today_average_processing_time: number = 0;
@@ -23,9 +25,17 @@ export class SmallCardComponent implements OnInit {
   abandoned: number = 0;
   sla_breached: number = 0;
 
-  constructor(private service: ClaimService) {}
-
+  constructor(private service: ClaimService, private sharedService: SharedService) {}
   ngOnInit() {
+    this.sharedService.selectedCategory$.subscribe((category: any) => {
+      this.category = category || ""; // Update category
+      this.fetchData(); // Fetch data whenever category changes
+    });
+
+    this.sharedService.selectedLob$.subscribe((lob: any) => {
+      this.lob = lob || ""; // Update LOB
+      this.fetchData(); // Fetch data whenever LOB changes
+    });
     this.fetchData();
   }
 

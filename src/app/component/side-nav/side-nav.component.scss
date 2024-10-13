@@ -40,7 +40,7 @@ mat-sidenav {
 mat-sidenav-content {
     padding: 20px; /* Padding for the main content */
     height: 100vh; /* Full height of viewport */
-    overflow-y: auto; /* Allow scrolling in main content */
+    overflow-y: hidden; /* Allow scrolling in main content */
     flex: 1; /* Allow main content to take remaining space */
 }
 

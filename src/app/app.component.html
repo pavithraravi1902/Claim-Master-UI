@@ -16,8 +16,8 @@
     <div class="content">
       <ng-container *ngIf="!isClaimRoute(); else tableTemplate">
         <app-select-card></app-select-card>
-        <!-- <app-small-card></app-small-card>
-        <app-dashboard></app-dashboard> -->
+        <app-small-card></app-small-card>
+        <app-dashboard></app-dashboard>
       </ng-container>
       <ng-template #tableTemplate>
         <app-table></app-table>

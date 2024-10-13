@@ -1,9 +1,23 @@
-.mat-select {
-    position: relative; /* Ensure mat-select has a position context */
-    z-index: 10; /* Bring it to the front */
+.select-container {
+    display: flex; /* Enable flexbox for horizontal alignment */
+    align-items: center; /* Center items vertically */
+    gap: 16px; /* Space between the select fields */
 }
 
-.custom-select-panel {
-    position: absolute !important; /* Ensures the panel is positioned absolutely */
-    z-index: 1000; /* Adjust the z-index to bring it to the front */
+.select-wrapper {
+    flex: 1; /* Allows the select fields to grow and fill space equally */
+}
+
+.custom-select {
+    width: 100%; /* Make select take full width of its container */
+    padding: 8px; /* Add some padding for better appearance */
+    border: 1px solid #ccc; /* Border styling */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    color: #333; /* Color for selected options */
+}
+
+/* Optional: Style the placeholder */
+.custom-select option {
+    color: #999; /* Color for the placeholder */
 }

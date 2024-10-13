@@ -1,103 +1,4 @@
-// // import { Component } from '@angular/core';
-// // import * as Highcharts from 'highcharts';
-
-// // @Component({
-// //   selector: 'app-line-chart',
-// //   templateUrl: './line-chart.component.html',
-// //   styleUrls: ['./line-chart.component.scss']
-// // })
-// // export class LineChartComponent {
-// //   Highcharts: typeof Highcharts = Highcharts; // Highcharts namespace
-// //   chartOptions: Highcharts.Options = {
-// //     title: {
-// //       text: 'Sample Line Chart'
-// //     },
-// //     xAxis: {
-// //       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
-// //     },
-// //     yAxis: {
-// //       title: {
-// //         text: 'Values'
-// //       }
-// //     },
-// //     series: [{
-// //       name: 'Sample Data',
-// //       type: 'line',
-// //       data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6],
-// //     }]
-// //   };
-// // }
-
-// import { Component } from '@angular/core';
-// import * as Highcharts from 'highcharts';
-// import { ClaimService } from '../../service/claim.service';
-
-// @Component({
-//   selector: 'app-line-chart',
-//   templateUrl: './line-chart.component.html',
-//   styleUrls: ['./line-chart.component.scss']
-// })
-// export class LineChartComponent {
-//   constructor(private service: ClaimService){
-
-//   }
-//   Highcharts: typeof Highcharts = Highcharts; // Highcharts namespace
-//   selectedOption: 'month' | 'year' = 'month'; // Default to month
-
-//   // Separate datasets for year and month
-//   monthData = [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6]; // Sample month data
-//   yearData = [100, 200, 150, 300, 400, 250, 500]; // Sample year data
-
-//   // Initial chart options
-//   chartOptions: Highcharts.Options | any = {
-//     title: {
-//       text: 'LOB Monthwise Average'
-//     },
-//     xAxis: {
-//       categories: this.getCategories(this.selectedOption) // Get categories based on selection
-//     },
-//     yAxis: {
-//       title: {
-//         text: 'Values'
-//       }
-//     },
-//     series: [{
-//       name: this.selectedOption === 'month' ? 'Monthly Data' : 'Yearly Data',
-//       type: 'line',
-//       data: this.getChartData(this.selectedOption), // Get the appropriate data
-//     }]
-//   };
-
-//   // Method to get categories based on the selected option
-//   getCategories(option: 'month' | 'year'): string[] {
-//     return option === 'month' 
-//       ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
-//       : ['2021', '2022', '2023', '2024', '2025', '2026', '2027']; // Example years
-//   }
-
-//   // Method to get data based on selected option
-//   getChartData(option: 'month' | 'year'): number[] {
-//     return option === 'month' ? this.monthData : this.yearData;
-//   }
-
-//   // Handle changes in the select field
-//   onOptionChange(option: 'month' | 'year') {
-//     this.selectedOption = option; // Update selected option
-//     this.chartOptions.xAxis.categories = this.getCategories(option); // Update categories
-//     this.chartOptions.series[0].data = this.getChartData(option); // Update data
-//     this.chartOptions.series[0].name = option === 'month' ? 'Monthly Data' : 'Yearly Data'; // Update series name
-//     Highcharts.chart('container', this.chartOptions); // Redraw chart
-//   }
-
-//   ngOnInit(){
-//     this.service.getLineChart().subscribe((data)=>{
-//       console.log(data)
-//     })
-//   }
-// }
-
-
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { ClaimService } from '../../service/claim.service';
 
@@ -106,73 +7,99 @@ import { ClaimService } from '../../service/claim.service';
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.scss']
 })
-export class LineChartComponent {
+export class LineChartComponent implements OnInit {
   constructor(private service: ClaimService) {}
 
-  Highcharts: typeof Highcharts = Highcharts; // Highcharts namespace
-  selectedOption: 'month' | 'year' = 'month'; // Default to month
+  Highcharts: typeof Highcharts = Highcharts;
+  selectedOption: 'month' | 'year' = 'month'; // Default selection is 'month'
 
-  // Placeholder for the month and year data from the service
-  monthData: number[] = [];
-  yearData: number[] = [];
-  categories: string[] = []; // To store categories (LOB names)
+  options = [
+    { label: 'Month', value: 'month' },
+    { label: 'Year', value: 'year' }
+  ];
 
-  // Initial chart options
+  monthData: { [key: string]: number[] } = {}; // LOB-wise data for months
+  yearData: { [key: string]: number[] } = {};  // LOB-wise data for years
+  categories: string[] = []; // Categories for x-axis
+
   chartOptions: Highcharts.Options | any = {
     title: {
       text: 'LOB Average Time'
     },
     xAxis: {
-      categories: this.getCategories(this.selectedOption), // Get categories based on selection
+      categories: this.getCategories(this.selectedOption), // Dynamically set categories
     },
     yAxis: {
       title: {
         text: 'Average Time'
-      }
+      },
+      tickInterval: 10, // Adjust based on data scale
     },
-    series: [{
-      name: this.selectedOption === 'month' ? 'Monthly Data' : 'Yearly Data',
-      type: 'line',
-      data: this.getChartData(this.selectedOption), // Get the appropriate data
-    }]
+    series: [] // Will be populated dynamically based on API data
   };
 
-  // Method to get categories based on the selected option
+  // Method to return categories for 'month' or 'year'
   getCategories(option: 'month' | 'year'): string[] {
-    return this.categories; // Return the dynamically set categories
+    if (option === 'month') {
+      return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; 
+    } else {
+      const currentYear = new Date().getFullYear();
+      return Array.from({ length: 10 }, (_, i) => (currentYear - i).toString()).reverse(); // Last 10 years
+    }
   }
 
-  // Method to get data based on selected option
-  getChartData(option: 'month' | 'year'): number[] {
-    return option === 'month' ? this.monthData : this.yearData;
-  }
-
-  // Handle changes in the select field
-  onOptionChange(option: 'month' | 'year') {
-    this.selectedOption = option; // Update selected option
-    this.chartOptions.xAxis.categories = this.getCategories(option); // Update categories
-    this.chartOptions.series[0].data = this.getChartData(option); // Update data
-    this.chartOptions.series[0].name = option === 'month' ? 'Monthly Data' : 'Yearly Data'; // Update series name
-    Highcharts.chart('container', this.chartOptions); // Redraw chart
+  // Event handler for changing the display option (month/year)
+  onSelectionChange1(event: any) {
+    this.selectedOption = event.target.value as 'month' | 'year'; // Update based on the selected value
+    this.updateChart(); // Update the chart with new data and categories
   }
 
   ngOnInit() {
+    // Fetch the data from the API when the component initializes
     this.service.getLineChart().subscribe((data) => {
-      // Process the received data to extract monthwise and yearwise average times
       const monthwiseAvg = data.monthwise_average;
       const yearwiseAvg = data.yearwise_average;
 
-      // Set month data
-      this.monthData = monthwiseAvg.map((avg: any) => avg.avg_time);
-      this.categories = monthwiseAvg.map((avg: any) => avg.lob); // LOB names as categories
+      // Process month-wise data
+      monthwiseAvg.forEach((avg: any) => {
+        const lob = avg.lob;
+        const avg_time = avg.avg_time;
+        if (!this.monthData[lob]) {
+          this.monthData[lob] = [];
+        }
+        this.monthData[lob].push(avg_time);
+      });
 
-      // Set year data
-      this.yearData = yearwiseAvg.map((avg: any) => avg.avg_time);
+      // Process year-wise data
+      yearwiseAvg.forEach((avg: any) => {
+        const lob = avg.lob;
+        const avg_time = avg.avg_time;
+        if (!this.yearData[lob]) {
+          this.yearData[lob] = [];
+        }
+        this.yearData[lob].push(avg_time); 
+      });
 
-      // Update chart with initial data
-      this.chartOptions.series[0].data = this.getChartData(this.selectedOption);
-      this.chartOptions.xAxis.categories = this.getCategories(this.selectedOption);
-      Highcharts.chart('line-chart-container', this.chartOptions); // Redraw chart
+      this.updateChart(); // Initially update the chart with month data
     });
+  }
+
+  // Method to update the chart based on the selected option (month/year)
+  private updateChart() {
+    const data = this.selectedOption === 'month' ? this.monthData : this.yearData;
+    
+    // Prepare the series for the chart based on the selected data
+    const series: Highcharts.SeriesLineOptions[] = Object.keys(data).map(lob => ({
+      name: lob, // Use LOB (line of business) as the series name
+      type: 'line', // Line chart
+      data: data[lob], // Data for the selected option (month/year)
+    }));
+
+    // Update the chart options
+    this.chartOptions.series = series;
+    this.chartOptions.xAxis.categories = this.getCategories(this.selectedOption); // Update the categories
+
+    // Render the updated chart
+    Highcharts.chart('line-chart-container', this.chartOptions); 
   }
 }

@@ -5,58 +5,70 @@ import { ClaimService } from '../../service/claim.service';
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.scss']
+  styleUrls: ['./bar-chart.component.scss'],
 })
 export class BarChartComponent {
-  constructor(private service: ClaimService){
-
-  }
-  Highcharts: typeof Highcharts = Highcharts; // Highcharts namespace
+  Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options | any = {
     chart: {
-      type: 'bar' // Set the chart type to 'bar'
+      type: 'bar',
     },
     title: {
-      text: 'Average Processing Timeline'
+      text: 'Average Processing Timeline',
     },
     xAxis: {
-      categories: ['Apples', 'Bananas', 'Oranges', 'Pears', 'Grapes'],
+      categories: [],
       title: {
-        text: null
-      }
+        text: 'Claim Stages',
+      },
     },
     yAxis: {
       min: 0,
       title: {
-        text: 'Fruit eaten',
-        align: 'high'
+        text: 'Average Time Taken',
+        align: 'high',
       },
       labels: {
-        overflow: 'justify'
-      }
+        overflow: 'justify',
+      },
     },
     tooltip: {
-      valueSuffix: ' fruits'
+      valueSuffix: ' hours',
     },
     plotOptions: {
       bar: {
         dataLabels: {
-          enabled: true // Enable data labels
-        }
-      }
+          enabled: true,
+        },
+      },
     },
-    series: [{
-      name: 'Jane',
-      data: [10, 15, 7, 12, 5] 
-    }, {
-      name: 'John',
-      data: [8, 12, 5, 8, 10]
-    }]
+    series: [],
   };
 
-  ngOnInit(){
-    this.service.getBarChart().subscribe((data)=>{
+  constructor(private service: ClaimService) {}
+
+  ngOnInit() {
+    this.fetchChartData();
+  }
+
+  fetchChartData() {
+    this.service.getHeatChart().subscribe((data: any) => {
       console.log(data);
-    })
+      const stages = data.stages;
+      const seriesData = data.averages.map(
+        (average: number[], index: number) => ({
+          name: data.stages[index],
+          data: average,
+        })
+      );
+
+      this.chartOptions.xAxis.categories = stages; 
+      this.chartOptions.series = seriesData; 
+      this.renderChart(); 
+    });
+  }
+
+  renderChart() {
+    Highcharts.chart('bar-chart-container', this.chartOptions);
   }
 }

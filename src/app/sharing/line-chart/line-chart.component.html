@@ -1,11 +1,10 @@
 <div class="chart-options">
-  <mat-form-field appearance="fill">
-    <mat-label>Choose Display Option</mat-label>
-    <mat-select [(value)]="selectedOption" (selectionChange)="onOptionChange($event.value)">
-      <mat-option value="month">Month</mat-option>
-      <mat-option value="year">Year</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div class="select-container">
+    <select class="custom-select" [(ngModel)]="selectedOption" (change)="onSelectionChange1($event)">
+        <option value="" disabled selected>Select an option</option> <!-- Placeholder -->
+        <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+    </select>
+</div>
 </div>
 
 <div>

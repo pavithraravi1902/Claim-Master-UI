@@ -1,46 +1,13 @@
-<!-- <div class="select-row">
-  <mat-form-field class="select-field">
-    <mat-label>Select Option 1</mat-label>
-    <mat-select [(ngModel)]="selectedOption1" (selectionChange)="onSelectionChange()">
-      <mat-option *ngFor="let option of options1" [value]="option">{{ option }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+<div class="select-container">
+  <select class="custom-select" [(ngModel)]="selectedOption1" (change)="onSelectionChange1($event)">
+      <option value="" disabled selected>Select an option</option> <!-- Placeholder -->
+      <option *ngFor="let option of options1" [value]="option.value">{{ option.label }}</option>
+  </select>
 
-  <mat-form-field class="select-field">
-    <mat-label>Select Option 2</mat-label>
-    <mat-select [(ngModel)]="selectedOption2" (selectionChange)="onSelectionChange()">
-      <mat-option *ngFor="let option of options2" [value]="option">{{ option }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <a mat-icon-button [routerLink]="['/claim']">
-    <mat-icon aria-hidden="false" aria-label="Example home icon">table</mat-icon>
-  </a>
-  
-</div> -->
-
-<!-- <div style="position: relative;">
-    <select style="position: absolute; z-index: 10;">
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
-        <option value="3">Option 3</option>
-    </select>
-</div> -->
-
-<div class="select-row">
-  <mat-form-field class="select-field">
-    <mat-label>Select Option 1</mat-label>
-    <mat-select [(ngModel)]="selectedOption1" (selectionChange)="onSelectionChange()">
-      <mat-option *ngFor="let option of options1" [value]="option">{{ option }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field class="select-field">
-    <mat-label>Select Option 2</mat-label>
-    <mat-select [(ngModel)]="selectedOption2" (selectionChange)="onSelectionChange()">
-      <mat-option *ngFor="let option of options2" [value]="option">{{ option }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  
+  <select class="custom-select" [(ngModel)]="selectedOption2" (change)="onSelectionChange2($event)">
+      <option value="" disabled selected>Select an option</option> <!-- Placeholder -->
+      <option *ngFor="let option of options2" [value]="option.value">{{ option.label }}</option>
+  </select>
   <a mat-icon-button [routerLink]="['/claim']">
     <mat-icon aria-hidden="false" aria-label="Example home icon">table</mat-icon>
   </a>

@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { ClaimService } from '../../service/claim.service';
 
 @Component({
   selector: 'app-pie-chart',
@@ -7,37 +8,29 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./pie-chart.component.scss']
 })
 export class PieChartComponent implements AfterViewInit {
-  @ViewChild('containerPieChart', { static: false }) container!: ElementRef; // Add static: false to ensure it's initialized correctly
+  @ViewChild('containerPieChart', { static: false }) container!: ElementRef; // Ensure it's initialized correctly
 
   Highcharts: typeof Highcharts = Highcharts;
 
-  chartOptions: Highcharts.Options | any= {
+  chartOptions: Highcharts.Options | any = {
     chart: {
       plotBackgroundColor: null,
       plotBorderWidth: null,
       plotShadow: false,
       type: 'pie',
-      renderTo: 'container-pie-chart',  // Explicitly render the chart in the container ID
     },
     title: {
-      text: 'Stagewise Status'
+      text: 'Stagewise Time Taken'
     },
     series: [{
-      name: 'Categories',
+      name: 'Stages',
       colorByPoint: true,
       type: 'pie',
-      data: [{
-        name: 'Category 1',
-        y: 61.41,
-      }, {
-        name: 'Category 2',
-        y: 11.84,
-      }, {
-        name: 'Category 3',
-        y: 10.85,
-      }]
+      data: [] // Start with an empty data array
     }]
   };
+
+  constructor(private service: ClaimService) {}
 
   ngAfterViewInit() {
     if (this.container) {
@@ -45,5 +38,33 @@ export class PieChartComponent implements AfterViewInit {
     } else {
       console.log('Container is not initialized');
     }
+  }
+
+  ngOnInit() {
+    this.fetchChartData(); // Fetch data on component initialization
+  }
+
+  fetchChartData() {
+    this.service.getPieChart().subscribe((data) => {
+      console.log(data); // Log the fetched data to ensure it's correct
+
+      // Assuming the backend returns data in this format:
+      // [
+      //   { "average_time_taken": 5.0, "stage": "CLAIM_LOADED" },
+      //   { "average_time_taken": 5.8, "stage": "CLAIM_REGISTERED" }
+      // ]
+
+      const seriesData = data.map((item: any) => ({
+        name: item.stage.replace('_', ' '), // Replace underscores with spaces for better readability
+        y: item.average_time_taken // Use the average_time_taken for the pie value
+      }));
+
+      this.chartOptions.series[0].data = seriesData; // Update the chart data
+      this.renderChart(); // Render the chart
+    });
+  }
+
+  renderChart() {
+    Highcharts.chart(this.container.nativeElement, this.chartOptions); // Ensure it renders in the correct container
   }
 }

@@ -73,6 +73,15 @@ export class ClaimService {
     return this.http.get<any>(`${this.apiUrl}/column-chart`);
   }
 
+  getExistingCategory(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/unique-categories`)
+  }
+
+  getExistingLobs(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/unique-lobs`)
+  }
+
+
   getLOBPieChart(lob: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/lob-pie-chart`, {
       params: { c_lob: lob },

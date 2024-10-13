@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import Heatmap from 'highcharts/modules/heatmap';
+import { ClaimService } from '../../service/claim.service';
 
-// Initialize the heatmap module
 Heatmap(Highcharts);
 
 @Component({
@@ -10,8 +10,10 @@ Heatmap(Highcharts);
   templateUrl: './heat-chart.component.html',
   styleUrls: ['./heat-chart.component.scss']
 })
-export class HeatChartComponent {
+export class HeatChartComponent implements OnInit {
+  constructor(private service: ClaimService) {}
   Highcharts: typeof Highcharts = Highcharts;
+
   chartOptions: Highcharts.Options | any = {
     chart: {
       type: 'heatmap',
@@ -21,10 +23,10 @@ export class HeatChartComponent {
       text: 'Average Processing Timeline'
     },
     xAxis: {
-      categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+      categories: [] 
     },
     yAxis: {
-      categories: ['8 AM', '12 PM', '4 PM'],
+      categories: [], 
       title: null
     },
     colorAxis: {
@@ -33,14 +35,30 @@ export class HeatChartComponent {
       maxColor: '#000000'
     },
     series: [{
-      name: 'Sales per day',
+      name: 'Average Processing',
       borderWidth: 1,
       type: 'heatmap',
-      data: [[0, 0, 10], [0, 1, 19], [0, 2, 8], [1, 0, 24], [1, 1, 67]],
+      data: [], 
       dataLabels: {
         enabled: true,
         color: '#000000'
       }
     }]
   };
+
+  ngOnInit() {
+    this.service.getHeatChart().subscribe((data) => {
+      console.log(data);
+      this.chartOptions.xAxis.categories = data.stages;
+      this.chartOptions.yAxis.categories = data.averages.map((_: any, index: any) => `Average ${index + 1}`); // Create labels for yAxis
+      const heatmapData: any = [];
+      data.averages.forEach((avgRow: any, rowIndex: any) => {
+        avgRow.forEach((value: any, colIndex: any) => {
+          heatmapData.push([colIndex, rowIndex, value]);
+        });
+      });
+      this.chartOptions.series[0].data = heatmapData;
+      this.Highcharts.chart('heat-map-container', this.chartOptions);
+    });
+  }
 }
